@@ -1,27 +1,28 @@
 /*  
-********************************************************************
-**  COMPUTER GRAPHICS PROJECT -> THE SPACESHIP SHOOTING GAME      **
-**																  **
-**				 BY												  **
-**																  **
-**	   Kaushik Jeyaraman & Nikilesh Iyer						  **
-**																  **
-**	   for any queries											  **
-**	   e-mail me : kaushikjjj@gmail.com							  **
-********************************************************************
+*******************************************************************************************************************
+**  COMPUTER GRAPHICS PROJECT -> THE SPACESHIP SHOOTING GAME      
+**																  
+**				 BY												  
+**																  
+**	   Kaushik Jeyaraman & Nikilesh Iyer						  
+**																  
+**	   for any queries											  
+**	   e-mail me : kaushikjjj@gmail.com							  
+*******************************************************************************************************************
 
-********************************************************************
-**           	   G A M E     D E S C R I P T I O N S			 **
-**					keybord controls=   w,a,s,d					 **
-**					mouse left click to fire					 **
-**																 **
-**	  INSTRUCTIONS:												 **
-**					Dodge the objects and shoot them down		 **
-**																 **
-**	  OBJECTIVE :   Beat the high score.						 **
-**					Score +1 point for shooting each object		 **
-**					Score +50 for lvl up						 **
-*******************************************************************
+*******************************************************************************************************************
+**				G A M E     D E S C R I P T I O N S			 
+**				
+**					keybord controls=   w,a,s,d					 
+**					mouse left click to fire					 
+**																 
+**	  INSTRUCTIONS:												 
+**					Dodge the objects and shoot them down		 
+**																 
+**	  OBJECTIVE :   Beat the high score.						 
+**					Score +1 point for shooting each object		 
+**					Score +50 for lvl up						 
+*******************************************************************************************************************
 */
 
 
