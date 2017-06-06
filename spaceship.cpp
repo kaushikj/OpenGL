@@ -55,7 +55,7 @@ float mouseX ,mouseY ;				//Cursor coordinates;
 float LaserAngle=0 ,stoneAngle =0,lineWidth = 1;
 float xOne=0,yOne=0;				//Spaceship coordinates
 float xStone[MAX_STONES] ,yStone[MAX_STONES];//coordinates of stones
-float xStart = 1200;				//Health bar starting coodinate
+float xHealthBarStart = 1200;				//Health bar starting coodinate
 GLint stoneAlive[MAX_STONES];		//check to see if stone is killed
 
 bool mButtonPressed= false,startGame=false,gameOver=false;		//boolean values to check state of the game
@@ -437,7 +437,7 @@ void SpaceshipCreate(){
 	glTranslated(xOne,yOne,0);
 	if(!checkIfSpaceShipIsSafe() && alienLife ){
 		alienLife-=10;
-		xStart -= 23;
+		xHealthBarStart -= 230;
 	}
 	DrawSpaceshipDoom();
 	glPushMatrix();
@@ -457,10 +457,10 @@ void DisplayHealthBar() {
 	
 	glColor3f(1 ,0 ,0);
 	glBegin(GL_POLYGON);
-		glVertex2f(-xStart ,700);
+		glVertex2f(-xHealthBarStart ,700);
 		glVertex2f(1200 ,700);
 		glVertex2f(1200 ,670);
-		glVertex2f(-xStart, 670);
+		glVertex2f(-xHealthBarStart, 670);
 	glEnd();
 	char temp[40];
 	glColor3f(0 ,0 ,1);
@@ -654,7 +654,7 @@ void GameOverScreen()
 			mButtonPressed = false;
 			initializeStoneArray();
 			alienLife=100;	
-			xStart=1200;
+			xHealthBarStart=1200;
 			Score=0;
 			GameLvl=1;
 			GameScreenDisplay();
