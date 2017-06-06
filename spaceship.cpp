@@ -692,7 +692,7 @@ void StoneGenerate(){
 			if(stoneAlive[i]){   // IF ALIVE KILL STONE
 				stoneAlive[i]=0;
 				Score++;
-				if(Score%3==0) {
+				if(Score%1==0) {
 					stoneTranslationSpeed+=1;			//<--------------Rate of increase of game speed
 				}							
 			}
