@@ -573,7 +573,7 @@ void readFromFile() {
 	} 
 	fclose(fp);
 }
-void readFromUserFile(){
+void readFromUserFile(){			//To get the username from the file
 	FILE *fp = fopen("UserName.txt","r");
 	int i=0;
 	if(fp!= NULL){
@@ -614,7 +614,7 @@ void writeIntoUnameFile() {						//To write high score on to file
    /* open the file for writing*/
    fp = fopen ("UserName.txt","w");
  
-   /* write 10 lines of text into the file stream*/
+   /* write username into the file stream*/
        fwrite(uName, sizeof(uName),1,fp);
  
    /* close the file*/  
@@ -771,8 +771,8 @@ void InstructionsScreenDisplay()
 	displayRasterText(-900 ,300 ,0.4 ,"Key 's' to move down.");
 	displayRasterText(-900 ,200 ,0.4 ,"Key 'd' to move right.");
 	displayRasterText(-900 ,100 ,0.4 ,"Key 'a' to move left.");
-	displayRasterText(-900 ,0.0 ,0.4 ,"Left mouse click to shoot laser");
-	//displayRasterText(-900 ,-100 ,0.4 ,"The packet can be placed only when 's' is pressed before.");
+	displayRasterText(-900 ,0.0 ,0.4 ,"Key 'q' to end the game.");
+	displayRasterText(-900 ,-100 ,0.4 ,"Left mouse click to shoot laser");
 	displayRasterText(-900 ,-200 ,0.4 ,"You Get 1 point for shooting each objet and 50 points for completing each lvl ");
 	displayRasterText(-900, -270,0.4,"The Objective is to score maximum points");
 	backButton();
