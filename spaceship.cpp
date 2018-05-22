@@ -55,13 +55,13 @@ float mouseX ,mouseY ;				//Cursor coordinates;
 float LaserAngle=0 ,stoneAngle =0,lineWidth = 1;
 float xOne=0,yOne=0;				//Spaceship coordinates
 float xStone[MAX_STONES] ,yStone[MAX_STONES];//coordinates of stones
-float xStart = 1200;				//Health bar starting coodinate
+float xHealthBarStart = 1200;				//Health bar starting coodinate
 GLint stoneAlive[MAX_STONES];		//check to see if stone is killed
 
 bool mButtonPressed= false,startGame=false,gameOver=false;		//boolean values to check state of the game
 bool startScreen = true ,nextScreen=false,previousScreen=false;
 bool gameQuit = false,instructionsGame = false, optionsGame = false;
-
+char uName[40],username[40];
 GLfloat a[][2]={0,-50, 70,-50, 70,70, -70,70};
 GLfloat LightColor[][3]={1,1,0,   0,1,1,   0,1,0};
 GLfloat AlienBody[][2]={{-4,9}, {-6,0}, {0,0}, {0.5,9}, {0.15,12}, {-14,18}, {-19,10}, {-20,0},{-6,0}};
@@ -76,7 +76,7 @@ GLfloat ALienFace[][2]={{-6,11}, {-4.5,18}, {0.5,20}, {0.,20.5}, {0.1,19.5}, {1.
 GLfloat ALienBeak[][2]={{-6,21.5}, {-6.5,22}, {-9,21}, {-11,20.5}, {-20,20}, {-14,23}, {-9.5,28}, {-7,27}, {-6,26.5}, 
 						{-4.5,23}, {-4,21}, {-6,19.5}, {-8.5,19}, {-10,19.5}, {-11,20.5} };
 
-char highScore[100],ch;
+char highScore[100],ch,ch1;
 void display();
 void StoneGenerate();
 void displayRasterText(float x ,float y ,float z ,char *stringToDisplay) {
@@ -437,7 +437,7 @@ void SpaceshipCreate(){
 	glTranslated(xOne,yOne,0);
 	if(!checkIfSpaceShipIsSafe() && alienLife ){
 		alienLife-=10;
-		xStart -= 23;
+		xHealthBarStart -= 230;
 	}
 	DrawSpaceshipDoom();
 	glPushMatrix();
@@ -457,10 +457,10 @@ void DisplayHealthBar() {
 	
 	glColor3f(1 ,0 ,0);
 	glBegin(GL_POLYGON);
-		glVertex2f(-xStart ,700);
+		glVertex2f(-xHealthBarStart ,700);
 		glVertex2f(1200 ,700);
 		glVertex2f(1200 ,670);
-		glVertex2f(-xStart, 670);
+		glVertex2f(-xHealthBarStart, 670);
 	glEnd();
 	char temp[40];
 	glColor3f(0 ,0 ,1);
@@ -477,7 +477,7 @@ void startScreenDisplay()
 	glLineWidth(50);
 	SetDisplayMode(MENU_SCREEN);
 
-	glColor3f(0,0,0);
+	glColor3f(0.3764,0.3764,0.3764);
 	glBegin(GL_LINE_LOOP);               //Border
 		glVertex3f(-750 ,-500 ,0.5);
 		glVertex3f(-750 ,550 ,0.5);
@@ -487,7 +487,7 @@ void startScreenDisplay()
 	
 	glLineWidth(1);
 
-	glColor3f(1, 1, 0);
+	glColor3f(0.3764,0.3764,0.3764);
 	glBegin(GL_POLYGON);				//START GAME PLOYGON
 		glVertex3f(-200 ,300 ,0.5);
 		glVertex3f(-200 ,400 ,0.5);
@@ -510,7 +510,7 @@ void startScreenDisplay()
 	glEnd();
 
 	if(mouseX>=-100 && mouseX<=100 && mouseY>=150 && mouseY<=200){
-		glColor3f(0 ,0 ,1) ;
+		glColor3f(1 ,1 ,1) ;
 		if(mButtonPressed){
 			startGame = true ;
 			gameOver = false;
@@ -522,7 +522,7 @@ void startScreenDisplay()
 	displayRasterText(-100 ,340 ,0.4 ,"Start Game");
 	
 	if(mouseX>=-100 && mouseX<=100 && mouseY>=30 && mouseY<=80) {
-		glColor3f(0 ,0 ,1);
+		glColor3f(1 ,1 ,1);
 		if(mButtonPressed){
 			instructionsGame = true ;
 			mButtonPressed = false;
@@ -532,7 +532,7 @@ void startScreenDisplay()
 	displayRasterText(-120 ,80 ,0.4 ,"Instructions");
 	
 	if(mouseX>=-100 && mouseX<=100 && mouseY>=-90 && mouseY<=-40){
-		glColor3f(0 ,0 ,1);
+		glColor3f(1 ,1 ,1);
 		if(mButtonPressed){
 			gameQuit = true ;
 			mButtonPressed = false;
@@ -572,6 +572,17 @@ void readFromFile() {
 	} 
 	fclose(fp);
 }
+void readFromUserFile(){
+	FILE *fp = fopen("UserName.txt","r");
+	int i=0;
+	if(fp!= NULL){
+		while(fread(&ch1,sizeof(char),1,fp)){
+			username[i++] = ch1;
+		}
+		username[i] = '\0';
+	}
+	fclose(fp);
+}
 void writeIntoFile() {						//To write high score on to file
 	FILE *fp = fopen("HighScoreFile.txt" ,"w");
 	int i=0;
@@ -584,14 +595,32 @@ void writeIntoFile() {						//To write high score on to file
 			temp[i++] = ch;
 		}
 		temp[i] = '\0';
-		strrev(temp);
-		puts(temp);
+		strrev(temp);		
+		//puts(temp);
 		if(temp[0] == '\0')
 			temp[i++] = '0' ,temp[i++] = '\0';
+		//strcat(uName,sign);
+		//strcat(uName,temp);
+		//fprintf(fptr,"%s", sentence);
 		fwrite(temp ,sizeof(char)*i ,i ,fp);
 	}
  fclose(fp);
 }
+
+void writeIntoUnameFile() {						//To write high score on to file
+	FILE * fp;
+   int i;
+   /* open the file for writing*/
+   fp = fopen ("UserName.txt","w");
+ 
+   /* write 10 lines of text into the file stream*/
+       fwrite(uName, sizeof(uName),1,fp);
+ 
+   /* close the file*/  
+   fclose (fp);
+
+}
+
 void GameOverScreen()
 {
 	SetDisplayMode(MENU_SCREEN);
@@ -607,7 +636,7 @@ void GameOverScreen()
 	glLineWidth(1);
 	stoneTranslationSpeed=5;
 	glColor3f(0, 1, 0);
-	glBegin(GL_POLYGON);				//GAME OVER
+	glBegin(GL_POLYGON);				//
 		glVertex3f(-550 ,810,0.5);
 		glVertex3f(-550 ,610 ,0.5);
 		glVertex3f(550 ,610 ,0.5);
@@ -633,16 +662,30 @@ void GameOverScreen()
 	displayRasterText(-300 ,640 ,0.4 ,"G A M E    O V E R ! ! !");
 	glColor3f(0 , 0, 0);
 	char temp[40];
-	
+	char c[1000];
+    FILE *fptr = fopen("HighScoreFile.txt", "r");
+
+    if (fptr == NULL)
+    {
+        printf("Error! opening file1");
+        // Program exits if file pointer returns NULL.
+        exit(1);         
+    }
+
+    // reads text until newline 
+    fscanf(fptr,"%s", c);
+	fclose(fptr);
 	sprintf(temp,"Score : %d",Score);
 	displayRasterText(-100 ,340 ,0.4 ,temp);
-	readFromFile();
+	readFromFile();            //read high score from the file*
+	readFromUserFile();
 	char temp2[40];
-	if(atoi(highScore) < Score){
+	if(atoi(highScore) < Score){         //set new high score*
 		writeIntoFile();
+		writeIntoUnameFile();           //write into user name file
 		sprintf(temp2 ,"Highest Score :%d" ,Score);
 	} else 
-		sprintf(temp2 ,"Highest Score :%s" ,highScore);
+		sprintf(temp2 ,"Highest Score :%s ---> %s",username,highScore);
 
 	displayRasterText(-250 ,400 ,0.4 ,temp2);
 		
@@ -654,7 +697,7 @@ void GameOverScreen()
 			mButtonPressed = false;
 			initializeStoneArray();
 			alienLife=100;	
-			xStart=1200;
+			xHealthBarStart=1200;
 			Score=0;
 			GameLvl=1;
 			GameScreenDisplay();
@@ -692,7 +735,7 @@ void StoneGenerate(){
 			if(stoneAlive[i]){   // IF ALIVE KILL STONE
 				stoneAlive[i]=0;
 				Score++;
-				if(Score%3==0) {
+				if(Score%1==0) {
 					stoneTranslationSpeed+=1;			//<--------------Rate of increase of game speed
 				}							
 			}
@@ -706,14 +749,14 @@ void StoneGenerate(){
 }
 void backButton() {
 	if(mouseX <= -450 && mouseX >= -500 && mouseY >= -275 && mouseY <= -250){
-			glColor3f(0, 0, 1);
+			glColor3f(1, 1, 1);
 			if(mButtonPressed){
 				mButtonPressed = false;
 				instructionsGame = false;
 				startScreenDisplay();
 			}
 	}
-	else glColor3f(0, 0, 0);
+	else glColor3f(52/255, 1, 1);
 	displayRasterText(-1000 ,-550 ,0, "Back");
 }
 void InstructionsScreenDisplay()
@@ -722,7 +765,7 @@ void InstructionsScreenDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetDisplayMode(MENU_SCREEN);
 	//colorBackground();
-	glColor3f(0, 0, 0);
+	glColor3f(1, 1, 1);
 	displayRasterText(-900 ,400 ,0.4 ,"Key 'w' to move up.");
 	displayRasterText(-900 ,300 ,0.4 ,"Key 's' to move down.");
 	displayRasterText(-900 ,200 ,0.4 ,"Key 'd' to move right.");
@@ -787,6 +830,12 @@ void somethingMovedRecalculateLaserAngle() {
 void keys(unsigned char key, int x, int y)
 {
 	//if(key=='w' && key=='d' ){xOne+=0.5;yOne+=0.5;}
+	if(key == 'q') {
+			startGame = false ;
+			gameOver = true;
+			mButtonPressed = false;
+			printf("%s",uName);
+		}
 	if(key == 'd') xOne+=SPACESHIP_SPEED; 
 	if(key == 'a') xOne-=SPACESHIP_SPEED; 
 	if(key == 'w') {yOne+=SPACESHIP_SPEED;}
@@ -797,6 +846,7 @@ void keys(unsigned char key, int x, int y)
 	display();
 	
 }
+
 void myinit()
 {
 	glClearColor(0.5,0.5,0.5,0);
@@ -808,6 +858,7 @@ void myinit()
 //  gluOrtho2D(-200,200,-200,200);
 	glMatrixMode(GL_MODELVIEW);
 }
+
 void passiveMotionFunc(int x,int y) {
 
 	//when mouse not clicked
@@ -835,14 +886,22 @@ void passiveMotionFunc(int x,int y) {
  void idleCallBack() {			//when no mouse or keybord pressed
 	 display();
  }
- void main(int argc, char** argv) {
+ int main(int argc, char** argv) {
+ 	printf("Enter the name:");
+ 	gets(uName);
 	
-	 FILE *fp = fopen("HighScoreFile.txt" ,"r") ;      //check if HighScoreFile.txt exist if not create             
-	 if(fp!=NULL)
-		fclose(fp);
+	 FILE *fp1 = fopen("HighScoreFile.txt" ,"r") ;      //check if HighScoreFile.txt exist if not create             
+	 if(fp1!=NULL)
+		fclose(fp1);
 	 else
 		 writeIntoFile(); 
 		 
+	 FILE *fp2 = fopen("UserName.txt" ,"r") ;      //check if UserName.txt exist if not create             
+	 if(fp2!=NULL)
+		fclose(fp2);
+	 else
+	 	printf("Hello");
+		
 	glutInit(&argc, argv);    
 	glutInitWindowSize(1200,700);
 	glutInitWindowPosition(90 ,0);
@@ -860,4 +919,5 @@ void passiveMotionFunc(int x,int y) {
 	SetDisplayMode(GAME_SCREEN);
 	initializeStoneArray();
 	glutMainLoop();
+	return 0;
  }
